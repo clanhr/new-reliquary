@@ -1,12 +1,16 @@
-(defproject yleisradio/new-reliquary "1.0.0"
+(defproject clanhr/new-reliquary "1.0.0"
   :description "Clojure newrelic java api wrapper"
   :url "https://github.com/Yleisradio/new-reliquary"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [com.newrelic.agent.java/newrelic-api "3.17.0"]]
+
+  :dependencies.edn "https://raw.githubusercontent.com/clanhr/dependencies/master/dependencies.edn"
+
+  :dependency-sets [:clojure :common]
+
+  :dependencies [[com.newrelic.agent.java/newrelic-api "3.27.0"]]
+
+  :plugins [[clanhr/shared-deps "0.2.6"]]
+
   :profiles { :dev { :dependencies [[ring/ring-core "1.3.2"]
-                                    [ring-mock "0.1.5"]
-                                    [org.clojure/tools.trace "0.7.8"]]}}
-  :plugins [[lein-ancient "0.6.7"]]
-  :signing {:gpg-key "C37817AC"})
+                                    [ring-mock "0.1.5"]]}})
