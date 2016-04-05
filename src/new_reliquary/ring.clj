@@ -1,5 +1,6 @@
 (ns new-reliquary.ring
-  (:require [new-reliquary.core :as newrelic])
+  (:require [new-reliquary.core :as newrelic]
+            [environ.core :refer [env]])
   (:import (com.newrelic.api.agent Response HeaderType Request)))
 
 ; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
@@ -96,4 +97,11 @@
       response)))
 
 (defn wrap-newrelic-transaction [handler]
-  (fn [request] (newrelic/with-newrelic-transaction (web-transaction handler request))))
+  (fn [request]
+    (newrelic/with-newrelic-transaction (web-transaction handler request))))
+
+(defn wrap-prd-newrelic-transaction [handler]
+  (if (some #{"production" "staging"} [(env :clanhr-env)])
+    (fn [request]
+      (newrelic/with-newrelic-transaction (web-transaction handler request)))
+    handler))
